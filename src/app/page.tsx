@@ -5,10 +5,12 @@ import { AiOutlineArrowRight, AiOutlinePoweroff } from "react-icons/ai";
 import { VscEye } from "react-icons/vsc";
 import { BsMoon, BsAirplane } from "react-icons/bs";
 import { VscDebugRestart } from "react-icons/vsc";
+import { useRouter } from "next/navigation";
 
 import users from "../data/users.json";
 
 export default function Home() {
+	const router = useRouter();
 	const [pwType, setPWType] = useState("password");
 	const [pw, setPW] = useState("");
 	const [pwEyeThingColor, setPWEyeThingColor] = useState("text-gray-300");
@@ -46,7 +48,7 @@ export default function Home() {
 	return (
 		<main
 			onContextMenu={(e) => e.preventDefault()}
-			className="bg-[url(https://i.stack.imgur.com/D3y4G.jpg)] bg-cover bg-no-repeat h-screen bg-blend-saturation select-none"
+			className="bg-[url(/bg.jpg)] bg-cover bg-no-repeat h-screen bg-blend-saturation select-none"
 		>
 			<div className="grid grid-cols-3 items-center justify-center h-screen backdrop-blur-md">
 				<div className="ml-4">
@@ -101,6 +103,12 @@ export default function Home() {
 								onSubmit={(e) => {
 									e.preventDefault();
 
+									if (pw == "incorrect")
+										return setrpwtext(<div>https://patreon.com/kieruken</div>);
+
+									if (pw == "Qw3rty!" || pw == "Passw0rd!")
+										return router.push("/windows");
+
 									setrpwtext(
 										<div className="loader">
 											<div className="circle"></div>
@@ -150,8 +158,14 @@ export default function Home() {
 								className="w-8 bg-gray-300 bg-opacity-40 flex items-center justify-center"
 								onClick={(e) => {
 									e.preventDefault();
+									if (pw == "incorrect")
+										return setrpwtext(<div>https://patreon.com/kieruken</div>);
+
+									if (pw == "Qw3rty!" || pw == "Passw0rd!")
+										return router.push("/windows");
+
 									setrpwtext(
-										<div className="loader">
+										<div className="loader top-3/4">
 											<div className="circle"></div>
 											<div className="circle"></div>
 											<div className="circle"></div>
@@ -193,7 +207,7 @@ export default function Home() {
 								className="font-light hover:opacity-75 cursor-pointer"
 								onClick={(e) => {
 									setrpwtext(
-										<div className="loader">
+										<div className="loader top-3/4">
 											<div className="circle"></div>
 											<div className="circle"></div>
 											<div className="circle"></div>

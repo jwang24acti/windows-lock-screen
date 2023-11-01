@@ -28,7 +28,6 @@ body {
 
 .loader {
 	position: absolute;
-	top: 75%;
 	left: 50%;
 	transform: translateX(-50%) translateY(-50%);
 	width: 50px;
