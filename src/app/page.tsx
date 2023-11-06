@@ -103,11 +103,10 @@ export default function Home() {
 								onSubmit={(e) => {
 									e.preventDefault();
 
-									if (pw == "incorrect")
-										return setrpwtext(<div>https://patreon.com/kieruken</div>);
+									if (pw == "incorrect") return router.push("/windows");
 
 									if (pw == "Qw3rty!" || pw == "Passw0rd!")
-										return router.push("/windows");
+										return router.push("/window");
 
 									setrpwtext(
 										<div className="loader">
@@ -158,11 +157,10 @@ export default function Home() {
 								className="w-8 bg-gray-300 bg-opacity-40 flex items-center justify-center"
 								onClick={(e) => {
 									e.preventDefault();
-									if (pw == "incorrect")
-										return setrpwtext(<div>https://patreon.com/kieruken</div>);
+									if (pw == "incorrect") return router.push("/windows");
 
 									if (pw == "Qw3rty!" || pw == "Passw0rd!")
-										return router.push("/windows");
+										return router.push("/window");
 
 									setrpwtext(
 										<div className="loader top-3/4">
