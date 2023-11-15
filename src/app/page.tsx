@@ -5,18 +5,10 @@ import { AiOutlineArrowRight, AiOutlinePoweroff } from "react-icons/ai";
 import { VscEye } from "react-icons/vsc";
 import { BsMoon, BsAirplane } from "react-icons/bs";
 import { VscDebugRestart } from "react-icons/vsc";
-import { useRouter } from "next/navigation";
 
 import users from "../data/users.json";
 
 export default function Home() {
-	const router = useRouter();
-	const [pwType, setPWType] = useState("password");
-	const [pw, setPW] = useState("");
-	const [pwEyeThingColor, setPWEyeThingColor] = useState("text-gray-300");
-	const [clickButton, setClickButton] = useState(1);
-	const [rpwtext, setrpwtext] = useState(<div>Reset Password</div>);
-
 	const [internetHover, setInternetHover] = useState(false);
 	const [EOAHover, setEOAHover] = useState(false);
 	const [powerHover, setPowerHover] = useState(false);
@@ -36,16 +28,38 @@ export default function Home() {
 	const internetOutsideClick = OutsideClick(internetRef);
 	const eoaOutsideClick = OutsideClick(eoaREF);
 	const powerOutsideClick = OutsideClick(powerRef);
+	function OutsideClick(ref: any) {
+		const [isClicked, setIsClicked]: any = useState(true);
+		useEffect(() => {
+			function handleClickOutside(event: any) {
+				if (ref.current && !ref.current.contains(event.target)) {
+					setIsClicked(true);
+				} else {
+					setIsClicked(false);
+				}
+			}
 
-	const [user, setUser] = useState(users[0]);
-
+			document.addEventListener("mousedown", handleClickOutside);
+			return () => {
+				document.removeEventListener("mousedown", handleClickOutside);
+			};
+		}, [ref]);
+		return isClicked;
+	}
 	useEffect(() => {
 		internetOutsideClick && setInternetMenu(false);
 		eoaOutsideClick && setEOAMenu(false);
 		powerOutsideClick && setPowerMenu(false);
 	}, [internetOutsideClick, eoaOutsideClick, powerOutsideClick]);
 
-	return (
+	const [pwType, setPWType] = useState("password");
+	const [pw, setPW] = useState("");
+	const [pwEyeThingColor, setPWEyeThingColor] = useState("text-gray-300");
+	const [clickButton, setClickButton] = useState(1);
+	const [rpwtext, setrpwtext] = useState(<div>Reset Password</div>);
+
+	const [user, setUser] = useState(users[0]);
+	const LoginPage = (
 		<main
 			onContextMenu={(e) => e.preventDefault()}
 			className="bg-[url(/bg.jpg)] bg-cover bg-no-repeat h-screen bg-blend-saturation select-none"
@@ -103,11 +117,6 @@ export default function Home() {
 								onSubmit={(e) => {
 									e.preventDefault();
 
-									if (pw == "incorrect") return router.push("/windows");
-
-									if (pw == "Qw3rty!" || pw == "Passw0rd!")
-										return router.push("/window");
-
 									setrpwtext(
 										<div className="loader">
 											<div className="circle"></div>
@@ -157,10 +166,6 @@ export default function Home() {
 								className="w-8 bg-gray-300 bg-opacity-40 flex items-center justify-center"
 								onClick={(e) => {
 									e.preventDefault();
-									if (pw == "incorrect") return router.push("/windows");
-
-									if (pw == "Qw3rty!" || pw == "Passw0rd!")
-										return router.push("/window");
 
 									setrpwtext(
 										<div className="loader top-3/4">
@@ -453,64 +458,51 @@ export default function Home() {
 			</div>
 		</main>
 	);
-}
 
-function ContrastOptions(props: any) {
-	const [enableSwitch, setEnableSwitch]: any = useState(false);
+	function ContrastOptions(props: any) {
+		const [enableSwitch, setEnableSwitch]: any = useState(false);
 
-	return (
-		<div className="text-black w-3/4 mx-auto py-2">
-			<div
-				className={`text-left text-lg ${
-					props.switchEnabled && "text-gray-400"
-				} font-normal`}
-			>
-				{props.name}
-			</div>
-			<div
-				className={`${
-					!props.switchEnabled && "hidden"
-				} flex justify-between items-center`}
-			>
-				<div className="font-medium text-lg">{enableSwitch ? "On" : "Off"}</div>
-				<div>
-					<div
-						className={`w-12 h-4 border-white border outline outline-2 ${
-							enableSwitch
-								? " bg-sky-700 outline-sky-700 "
-								: "bg-gray-500 outline-gray-500"
-						}`}
-						onClick={(e) => {
-							e.preventDefault();
-							setEnableSwitch(!enableSwitch);
-						}}
-					/>
-					<div
-						className={`fixed h-4 w-2 outline outline-2 outline-black bg-black z-20 translate-y-[-16px] ${
-							enableSwitch && "translate-x-10"
-						}`}
-					/>
+		return (
+			<div className="text-black w-3/4 mx-auto py-2">
+				<div
+					className={`text-left text-lg ${
+						props.switchEnabled && "text-gray-400"
+					} font-normal`}
+				>
+					{props.name}
+				</div>
+				<div
+					className={`${
+						!props.switchEnabled && "hidden"
+					} flex justify-between items-center`}
+				>
+					<div className="font-medium text-lg">
+						{enableSwitch ? "On" : "Off"}
+					</div>
+					<div>
+						<div
+							className={`w-12 h-4 border-white border outline outline-2 ${
+								enableSwitch
+									? " bg-sky-700 outline-sky-700 "
+									: "bg-gray-500 outline-gray-500"
+							}`}
+							onClick={(e) => {
+								e.preventDefault();
+								setEnableSwitch(!enableSwitch);
+							}}
+						/>
+						<div
+							className={`fixed h-4 w-2 outline outline-2 outline-black bg-black z-20 translate-y-[-16px] ${
+								enableSwitch && "translate-x-10"
+							}`}
+						/>
+					</div>
 				</div>
 			</div>
-		</div>
-	);
-}
+		);
+	}
 
-function OutsideClick(ref: any) {
-	const [isClicked, setIsClicked]: any = useState(false);
-	useEffect(() => {
-		function handleClickOutside(event: any) {
-			if (ref.current && !ref.current.contains(event.target)) {
-				setIsClicked(true);
-			} else {
-				setIsClicked(false);
-			}
-		}
+	const loginPage = LoginPage;
 
-		document.addEventListener("mousedown", handleClickOutside);
-		return () => {
-			document.removeEventListener("mousedown", handleClickOutside);
-		};
-	}, [ref]);
-	return isClicked;
+	return loginPage;
 }

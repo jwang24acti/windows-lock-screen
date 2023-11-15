@@ -1,0 +1,2 @@
+Application has thrown an uncaught exception and is terminated:
+Error: ENOENT: no such file or directory, open 'F:\Desktop\Subtle Sabotage Plan\Code\windows-lock-screen\.next\BUILD_ID'
